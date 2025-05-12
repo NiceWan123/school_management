@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=900, initial-scale=1.0" />
+  <title>Avatar Stats Dashboard</title>
+  <link rel="stylesheet" href="starplot.css" />
+</head>
+<body>
+  <div class="dashboard-bg">
+    <div class="dashboard-container">
+      <!-- Left: Avatar + Stats -->
+      <div class="avatar-stats">
+        <div id="avatar-3d-container">
+          <div id="avatar-canvas-wrapper"></div>
+        </div>
+        <div class="level-section">
+          <div class="level-label">LVL</div>
+          <div class="name-label">NAME</div>
+        </div>
+        <div class="stats-list">
+          <div class="stat-row">
+            <span>MATH</span>
+            <div class="stat-bar"><div class="stat-bar-fill" id="math-left"></div></div>
+          </div>
+          <div class="stat-row">
+            <span>SCIENCE</span>
+            <div class="stat-bar"><div class="stat-bar-fill" id="science-left"></div></div>
+          </div>
+          <div class="stat-row">
+            <span>FILIPINO</span>
+            <div class="stat-bar"><div class="stat-bar-fill" id="filipino-left"></div></div>
+          </div>
+          <div class="stat-row">
+            <span>MAPEH</span>
+            <div class="stat-bar"><div class="stat-bar-fill" id="mapeh-left"></div></div>
+          </div>
+        </div>
+      </div>
+      <!-- Center: Radar Chart -->
+      <div class="radar-container">
+        <canvas id="radar" width="250" height="250"></canvas>
+        <div class="hologram-base"></div>
+      </div>
+      <!-- Right: Stats -->
+      <div class="stats-list right-stats">
+        <div class="stat-row">
+          <span>MATH</span>
+          <div class="stat-bar"><div class="stat-bar-fill" id="math-right"></div></div>
+        </div>
+        <div class="stat-row">
+          <span>SCIENCE</span>
+          <div class="stat-bar"><div class="stat-bar-fill" id="science-right"></div></div>
+        </div>
+        <div class="stat-row">
+          <span>FILIPINO</span>
+          <div class="stat-bar"><div class="stat-bar-fill" id="filipino-right"></div></div>
+        </div>
+        <div class="stat-row">
+          <span>MAPEH</span>
+          <div class="stat-bar"><div class="stat-bar-fill" id="mapeh-right"></div></div>
+        </div>
+      </div>
+    </div>
+    <!-- Bottom icons -->
+    <div class="dashboard-icons">
+      <img src="calendar.png" alt="Calendar" />
+      <img src="schedule.png" alt="Schedule" />
+      <img src="quiz.png" alt="Quiz" />
+      <img src="notes.png" alt="Notes" />
+    </div>
+  </div>
+ <script src="https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.154.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script src="starplot.js"></script>
+</body>
+</html>

@@ -1,16 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Student Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberpunk Dashboard</title>
+  <link rel="stylesheet" href="student_dashboard.css">
 </head>
 <body>
-    <h1>Welcome, {{ request.user.first_name }}!</h1>
+  <div class="dashboard">
+    <!-- Background -->
+    <div class="background-overlay"></div>
 
-    <!-- Logout Button -->
-    <form action="{% url 'account:logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
+    <!-- Character -->
+    <div class="character">
+      <img src="/project/MANAGEMENT/account/templates/student/images/profile.png" alt="Sung Jinwoo">
+    </div>
+
+    <!-- Merit Wall -->
+    <div class="merit-wall">
+      <h2>「MY MERIT WALL」</h2>
+      <div class="points">
+        <span class="star">★</span>
+        <span class="square">■</span>
+        <span class="score">PTS</span>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="calendar">
+      <div class="month">DECEMBER</div>
+      <table>
+        <thead>
+          <tr>
+            <th>S</th>
+            <th>M</th>
+            <th>T</th>
+            <th>W</th>
+            <th>T</th>
+            <th>F</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td><td></td><td></td><td></td><td></td><td>1</td><td>2</td>
+          </tr>
+          <tr>
+            <td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
+          </tr>
+          <tr>
+            <td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td>
+          </tr>
+          <tr>
+            <td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td>
+          </tr>
+          <tr>
+            <td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td>
+          </tr>
+          <tr>
+            <td>31</td><td></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Navigation Box -->
+    <div class="navigation-box">
+      <button class="nav-arrow left">◀</button>
+      <div class="content-box"></div>
+      <button class="nav-arrow right">▶</button>
+    </div>
+  </div>
 </body>
 </html>

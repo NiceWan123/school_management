@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3D Platform Button with Upright Content</title>
+  <style>
+    body {
+      background: #f6f8fa;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      perspective: 900px;
+    }
+    .platform-container {
+      position: relative;
+      width: 180px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      perspective: 900px;
+    }
+    .platform-btn {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 16px;
+      background: #3498db;
+      box-shadow: 0 3px 18px rgba(52,152,219,0.18);
+      cursor: pointer;
+      position: absolute;
+      left: 0; top: 0;
+      transition:
+        transform 0.38s cubic-bezier(.28,.84,.42,1),
+        box-shadow 0.38s;
+      will-change: transform;
+      z-index: 1;
+      transform-style: preserve-3d;
+    }
+    .platform-container:hover .platform-btn,
+    .platform-container:focus-within .platform-btn {
+      transform: rotateX(75deg) scaleX(1.08) scaleY(0.98) translateY(14px);
+      box-shadow: 0 16px 44px rgba(52,152,219,0.33);
+    }
+    .platform-content {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3em;
+      color: #3498db;
+      z-index: 2;
+      /* counter-rotate to keep upright */
+      transition:
+        transform 0.38s cubic-bezier(.28,.84,.42,1),
+        filter 0.38s cubic-bezier(.28,.84,.42,1),
+        box-shadow 0.38s;
+      will-change: transform;
+      pointer-events: none;
+    }
+    .platform-container:hover .platform-content,
+    .platform-container:focus-within .platform-content {
+      /* Pops up and counter-rotates to stay upright */
+      transform: translateY(-35px) scale(1.12);
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.13));
+      box-shadow: 0 16px 36px rgba(52,152,219,0.17);
+    }
+    .platform-btn .fake-label {
+      opacity: 0;
+      /* Hide the button label since we use a separate upright label */
+    }
+    .platform-content img {
+      max-width: 38px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <!-- Button platform with upright text -->
+  <div class="platform-container" tabindex="0">
+    <button class="platform-btn">
+      <span class="fake-label">Hover Me!</span>
+    </button>
+    <span class="platform-content">Hover Me!</span>
+  </div>
+  <!-- Button platform with upright image -->
+  <div class="platform-container" tabindex="0">
+    <button class="platform-btn">
+      <span class="fake-label">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png" alt="Star">
+      </span>
+    </button>
+    <span class="platform-content">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png" alt="Star">
+    </span>
+  </div>
+</body>
+</html>
