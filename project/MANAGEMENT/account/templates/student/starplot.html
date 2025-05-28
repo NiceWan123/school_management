@@ -2,23 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=900, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Avatar Stats Dashboard</title>
   <link rel="stylesheet" href="starplot.css" />
+  <script type="module" src="starplot.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.module.js"
+    }
+  }
+  </script>
 </head>
 <body>
-  <div class="dashboard-bg">
+  <!-- The avatar canvas will be absolutely positioned, filling the viewport -->
+  <div id="avatar-3d-bg"></div>
+
+  <div class="dashboard-overlay">
     <div class="dashboard-container">
-      <!-- Left: Avatar + Stats -->
-      <div class="avatar-stats">
-        <div id="avatar-3d-container">
-          <div id="avatar-canvas-wrapper"></div>
-        </div>
-        <div class="level-section">
+      <div class="avatar-info-stats">
+        <div class="avatar-info">
           <div class="level-label">LVL</div>
           <div class="name-label">NAME</div>
         </div>
-        <div class="stats-list">
+        <div class="avatar-info-pointer"></div>
+        <div class="avatar-info-pointer-circle"></div>
+        <div class="stats-list left-stats">
           <div class="stat-row">
             <span>MATH</span>
             <div class="stat-bar"><div class="stat-bar-fill" id="math-left"></div></div>
@@ -35,43 +44,66 @@
             <span>MAPEH</span>
             <div class="stat-bar"><div class="stat-bar-fill" id="mapeh-left"></div></div>
           </div>
+          <div class="stat-row">
+            <span>PE</span>
+            <div class="stat-bar"><div class="stat-bar-fill" id="pe-left"></div></div>
+          </div>
+          <div class="stat-row">
+            <span>AP</span>
+            <div class="stat-bar"><div class="stat-bar-fill" id="ap-left"></div></div>
+          </div>
+          <div class="stat-row">
+            <span>ESP</span>
+            <div class="stat-bar"><div class="stat-bar-fill" id="esp-left"></div></div>
+          </div>
+          <div class="stat-row">
+            <span>ENGLISH</span>
+            <div class="stat-bar"><div class="stat-bar-fill" id="english-left"></div></div>
+          </div>
         </div>
       </div>
-      <!-- Center: Radar Chart -->
       <div class="radar-container">
-        <canvas id="radar" width="250" height="250"></canvas>
+        <canvas id="radar" width="500" height="500"></canvas>
+        <div id="radar-tooltip"></div>
         <div class="hologram-base"></div>
-      </div>
-      <!-- Right: Stats -->
-      <div class="stats-list right-stats">
-        <div class="stat-row">
-          <span>MATH</span>
-          <div class="stat-bar"><div class="stat-bar-fill" id="math-right"></div></div>
-        </div>
-        <div class="stat-row">
-          <span>SCIENCE</span>
-          <div class="stat-bar"><div class="stat-bar-fill" id="science-right"></div></div>
-        </div>
-        <div class="stat-row">
-          <span>FILIPINO</span>
-          <div class="stat-bar"><div class="stat-bar-fill" id="filipino-right"></div></div>
-        </div>
-        <div class="stat-row">
-          <span>MAPEH</span>
-          <div class="stat-bar"><div class="stat-bar-fill" id="mapeh-right"></div></div>
-        </div>
+         <img id="avatar-image-placeholder" src="/project/MANAGEMENT/account/templates/student/images/platform.png" alt="Avatar Placeholder">
       </div>
     </div>
-    <!-- Bottom icons -->
     <div class="dashboard-icons">
-      <img src="calendar.png" alt="Calendar" />
-      <img src="schedule.png" alt="Schedule" />
-      <img src="quiz.png" alt="Quiz" />
-      <img src="notes.png" alt="Notes" />
+      <!-- ... icon buttons, unchanged ... -->
+    
+    
+      <div class="platform-container" tabindex="0">
+        <button class="platform-btn">
+          <span class="fake-label">
+            <img src="schedule.png" alt="Schedule">
+          </span>
+        </button>
+        <span class="platform-content">
+          <img src="schedule.png" alt="Schedule">
+        </span>
+      </div>
+      <div class="platform-container" tabindex="0">
+        <button class="platform-btn">
+          <span class="fake-label">
+            <img src="quiz.png" alt="Quiz">
+          </span>
+        </button>
+        <span class="platform-content">
+          <img src="quiz.png" alt="Quiz">
+        </span>
+      </div>
+      <div class="platform-container" tabindex="0">
+        <button class="platform-btn">
+          <span class="fake-label">
+            <img src="notes.png" alt="Notes">
+          </span>
+        </button>
+        <span class="platform-content">
+          <img src="notes.png" alt="Notes">
+        </span>
+      </div>
     </div>
   </div>
- <script src="https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.154.0/examples/js/loaders/GLTFLoader.min.js"></script>
-  <script src="starplot.js"></script>
 </body>
 </html>

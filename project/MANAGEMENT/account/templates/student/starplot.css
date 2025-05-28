@@ -2,59 +2,182 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', Arial, sans-serif;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #070124 50%, #1b058a 100%);
+}
+body::before {
+  content: "";
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 75vh;
+  background: url('/project/MANAGEMENT/account/templates/student/images/star_bg.png') repeat-x;
+  background-position: top left;
+  z-index: 0;
+  pointer-events: none;
+  filter: opacity(100);
+}
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 25vh;
+  background: url('/project/MANAGEMENT/account/templates/student/images/floor.png') center center no-repeat;
+  background-size: cover;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.dashboard-bg {
-  background: linear-gradient(135deg, #161e4b 80%, #2a206e 100%);
-  min-height: 100vh;
-  color: #fff;
+#avatar-3d-bg {
+  position: fixed;
+  top: -3vh;
+  left: 5vw;
+  width: 40vw;
+  height: 120vh;
+  z-index: 100;
+  background: transparent;
+}
+
+
+.dashboard-overlay {
   position: relative;
-  overflow: hidden;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.dashboard-container,
+.dashboard-icons,
+.platform-container,
+.platform-btn {
+  pointer-events: auto;
 }
 
 .dashboard-container {
+   margin-left: 25vw; /* width of your 3D avatar area + a bit of gap (e.g., 40vw + 5vw) */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 48px 40px 0 40px;
+  padding: 48px 40px 0 0;
   align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.avatar-stats {
+/* Avatar info ONLY (no stats list) */
+.avatar-info {
   display: flex;
+  left: 0vh;
   flex-direction: column;
   align-items: center;
   width: 320px;
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 24px 16px 16px 16px;
+  
 }
 
-#avatar-3d-container {
-  width: 220px;
-  height: 260px;
-  margin-bottom: 24px;
-  border-radius: 20px;
-  background: #151d3a;
-  box-shadow: 0 10px 20px #0007;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  position: relative;
-  overflow: hidden;
-}
-#avatar-canvas-wrapper {
-  width: 200px;
-  height: 200px;
-  margin: 8px auto 0 auto;
-  background: transparent;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
+.avatar-info-pointer {
+  /* Position from bottom center of avatar-info */
+  position: absolute;
+  left: 50%;
+  top: 205px; /* Adjust to just below .avatar-info, or use JS to match .avatar-info height */
+  transform: translateX(-50%);
+  width: 90px;  /* Length of the pointer line */
+  height: 50px; /* Height of the curve */
+  pointer-events: none;
+  z-index: 2;
 }
 
-.level-section {
-  text-align: left;
-  width: 100%;
-  margin-bottom: 20px;
+.avatar-info-pointer::before {
+  /* The curved line */
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 80px;
+  height: 40px;
+  border-bottom: 3px solid #ffffff;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-radius: 0 0 80px 80px;
+  box-shadow: 0 0 12px #00f0ff99;
+}
+
+.avatar-info-pointer::after {
+  /* The circle pointer */
+  content: '';
+  position: absolute;
+  left: 80px;
+  top: 38px;
+  width: 18px;
+  height: 18px;
+  background: #00f0ff;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #00f0ff99;
+  border: 3px solid #fff;
+}
+
+.avatar-info-pointer {
+  position: absolute;
+  /* Position this so the pointer starts from the right side of .avatar-info */
+  left: 320px; /* match .avatar-info width */
+  top: 48px;   /* adjust down to align with "LVL" text */
+  width: 70px;
+  height: 45px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Horizontal segment */
+.avatar-info-pointer::before {
+  content: "";
+  position: absolute;
+  left: 18.5vh;
+  top: 12vh;
+  width: 80px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  z-index: 0;
+}
+
+/* Vertical segment */
+.avatar-info-pointer::after {
+  content: "";
+  position: absolute;
+  left: 16.5vh;
+  top: 11.5vh;
+  width: 3px;
+  height:60px;
+  background: #fff;
+  border-radius: 2px;
+  transform: rotate(30deg);
+  z-index: 1;
+}
+
+/* The circle at the tip */
+.avatar-info-pointer-circle {
+  position: absolute;
+  left: 25%; /* 36px (horiz) + 0px (vert offset) - 7px (half of circle) */
+  top: 25%;  /* vertical line height */
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #fff7;
+  z-index: 3;
+  border: 2px solid #222c;
 }
 
 .level-label {
@@ -73,8 +196,23 @@ body {
   margin-bottom: 12px;
 }
 
+/* Stats list (right only now) */
 .stats-list {
   width: 100%;
+}
+.right-stats {
+  margin-left: 24px;
+  border-radius: 16px;
+  padding: 16px;
+  color: #fff;
+}
+
+.stats-list.left-stats {
+  width: 100%;
+  margin-left: 18vh;    /* <--- Add this line (adjust value as needed) */
+  border-radius: 16px;
+  padding: 16px 0 0 0;
+  color: #fff;
 }
 
 .stat-row {
@@ -84,13 +222,11 @@ body {
   margin-bottom: 18px;
   font-size: 1rem;
 }
-
 .stat-row span {
   width: 90px;
   font-weight: 600;
   letter-spacing: 1px;
 }
-
 .stat-bar {
   flex: 1;
   background: #222;
@@ -100,13 +236,34 @@ body {
   overflow: hidden;
   position: relative;
 }
-
 .stat-bar-fill {
   background: linear-gradient(90deg, #00f0ff 60%, #2f5fff 100%);
   height: 100%;
   border-radius: 8px;
   width: 0%;
   transition: width 0.8s cubic-bezier(.7,0,.3,1);
+}
+@keyframes fillBarSlide {
+  0% {
+    width: 0%;
+    transform: translateX(-20px);
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    width: var(--final-width);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.stat-bar-fill {
+  /* ...your existing styles... */
+  animation: fillBarSlide 1.2s cubic-bezier(.7,0,.3,1) forwards;
+  /* The delay will be set via JS for stagger effect */
+  --final-width: 0%;
 }
 
 .radar-container {
@@ -115,6 +272,25 @@ body {
   align-items: center;
   margin: 0 40px;
   position: relative;
+  border-radius: 16px;
+  padding: 16px;
+  right: 50vh;
+}
+
+#radar-tooltip {
+  position: absolute;
+  pointer-events: none;
+  display: none;
+  background: #101433ee;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 0.98rem;
+  box-shadow: 0 4px 16px #0008;
+  z-index: 99;
+  min-width: 130px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .hologram-base {
@@ -129,23 +305,87 @@ body {
   z-index: -1;
 }
 
-.right-stats {
-  margin-left: 24px;
+#avatar-image-placeholder {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 65vh;
+  transform: translateX(-50%);
+  bottom: 10px;      /* Adjust as needed for vertical placement */
+  width: 20vw;      /* Match the placeholder size */
+  height: 120px;
+  opacity: 0.7;      /* Slightly transparent for effect */
+  z-index: 1;        /* Behind the tooltip, above the base */
+  pointer-events: none;
 }
 
 .dashboard-icons {
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
   justify-content: center;
-  gap: 36px;
   margin-top: 32px;
+  gap: 0;
 }
 
-.dashboard-icons img {
-  width: 54px;
-  height: 54px;
+/* 3D Platform Button Styles */
+.platform-container {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  perspective: 900px;
+  margin: 0 16px;
+}
+.platform-btn {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 16px;
   background: #212a6c;
-  border-radius: 10px;
-  padding: 7px;
-  box-shadow: 0 5px 18px #0005;
+  box-shadow: 0 3px 18px rgba(52,152,219,0.18);
+  cursor: pointer;
+  position: absolute;
+  left: 0; top: 0;
+  transition:
+    transform 0.38s cubic-bezier(.28,.84,.42,1),
+    box-shadow 0.38s;
+  will-change: transform;
+  z-index: 1;
+  transform-style: preserve-3d;
+}
+.platform-container:hover .platform-btn,
+.platform-container:focus-within .platform-btn {
+  transform: rotateX(75deg) scaleX(1.08) scaleY(0.98) translateY(14px);
+  box-shadow: 0 16px 44px rgba(52,152,219,0.33);
+}
+.platform-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em;
+  color: #3498db;
+  z-index: 2;
+  transition:
+    transform 0.38s cubic-bezier(.28,.84,.42,1),
+    filter 0.38s cubic-bezier(.28,.84,.42,1),
+    box-shadow 0.38s;
+  will-change: transform;
+  pointer-events: none;
+}
+.platform-container:hover .platform-content,
+.platform-container:focus-within .platform-content {
+  transform: translateY(-35px) scale(1.12);
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.13));
+  box-shadow: 0 16px 36px rgba(52,152,219,0.17);
+}
+.platform-btn .fake-label {
+  opacity: 0;
+}
+.platform-content img {
+  max-width: 38px;
+  vertical-align: middle;
 }

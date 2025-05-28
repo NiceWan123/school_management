@@ -149,7 +149,7 @@ body {
   }
 
   .cybr-btn:hover::after{
-    animation: 1s glitch;
+    animation: 1s glitch; 
     animation-timing-function: steps(2.end);
   }
   
