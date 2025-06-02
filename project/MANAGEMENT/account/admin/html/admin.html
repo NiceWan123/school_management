@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/project/MANAGEMENT/account/admin/css/admin.css">
+    <link rel="stylesheet" href="/project/MANAGEMENT/account/admin/css/enrollment.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo"></div>
+            <h2>Admin</h2>
+        </div>
+        <a href="#" class="active" onclick="showSection('dashboard')">Dashboard</a>
+        <a href="#" onclick="showSection('performance')">Performance</a>
+        <a href="#" onclick="showSection('anouncements')">Announcements</a>
+
+        <div class="dropdown">
+            <a href="#" class="dropdown-btn" onclick="toggleDropdown(event, 'dropdown-create-account')">
+                Create Account <i class="fa fa-angle-down dropdown-arrow"></i>
+            </a>
+            <div class="dropdown-content" id="dropdown-create-account">
+                <a href="#" onclick="showSection('Teacher')">Teacher</a>
+                <a href="#" onclick="showSection('Student')">Student</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="#" class="dropdown-btn" onclick="toggleDropdown(event, 'dropdown-enrolle-student')">
+                Enroll Student <i class="fa fa-angle-down dropdown-arrow"></i>
+            </a>
+            <div class="dropdown-content" id="dropdown-enrolle-student">
+                <a href="#" onclick="showSection('Grade1')">Grade 1</a>
+                <a href="#" onclick="showSection('Grade2')">Grade 2</a>
+                <a href="#" onclick="showSection('Grade3')">Grade 3</a>
+                <a href="#" onclick="showSection('Grade4')">Grade 4</a>
+                <a href="#" onclick="showSection('Grade5')">Grade 5</a>
+                <a href="#" onclick="showSection('Grade6')">Grade 6</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="dashboard">
+            <h1>Dashboard Overview</h1>
+            <div class="dashboard-chart">
+                <canvas id="lineChart" height="200" width="100"></canvas>
+            </div>
+          <div class="dashboard-cards">
+  <div class="card-column">
+    <div class="card" style="cursor:pointer;" onclick="window.location.href='enrolled_students_table.html'">
+    <h3>Enrolled Students</h3>
+    <p id="enrolled-students">0</p>
+</div>
+                    <div class="card">
+                        <h3>No. of Teachers</h3>
+                        <p id="left-card-2">Info 2</p>
+                    </div>
+                <div class="card" id="student-account-card" style="cursor:pointer;" onclick="window.location.href='student_account.html'">
+    <h3>Student Account</h3>
+    <p id="student-account-info">Accounts Created: </p>
+</div>
+        <!-- New Card: Teacher Account -->
+        <div class="card">
+            <h3>Teacher Account</h3>
+            <p id="teacher-account-info">Info 4</p>
+        </div>
+                </div>
+                <div class="card card-large announcement-card">
+                    <h3>Announcements</h3>
+                      <div id="announcement-list" class="announcement-list-scroll"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="performance" style="display:none;">
+            <h1>Performance</h1>
+            <p>Performance section content goes here.</p>
+        </div>
+
+        <div id="anouncements" style="display:none;">
+            <h1>Announcements</h1>
+            <iframe id="announcementFrameInline" src="announcement_form.html" frameborder="0" style="width:100%;min-height:650px;background:transparent;"></iframe>
+        </div>
+
+        <div id="Teacher" style="display:none;">
+        </div>
+
+        <div id="Student" style="display:none;">
+    <iframe id="studentFormFrame" src="create-student-form.html" style="width:100%;min-height:600px;border:none;"></iframe>
+</div>
+
+        <!-- Enrollment Sections for Grades 1–6 -->
+        <!-- Repeating similar blocks for each grade for brevity -->
+        <!-- Grade 1 -->
+        <div id="Grade1" style="display:none;">
+            <h1>Enroll Grade 1 Student</h1>
+            <button id="enrollBtn1" class="enroll-btn">
+                <i class="fa fa-user-plus"></i> Enroll New Student
+            </button>
+            <div id="enrollModal1" class="modal-overlay" style="display:none;">
+                <div class="modal-content">
+                    <span class="close-modal" id="closeEnrollModal1">&times;</span>
+                    <iframe id="enrollFrame1" src="" frameborder="0" style="width:100%;height:500px;"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repeat similar structure for Grade2 through Grade6 -->
+
+        <div id="Grade2" style="display:none;">
+            <h1>Enroll Grade 2 Student</h1>
+            <button id="enrollBtn2" class="enroll-btn"><i class="fa fa-user-plus"></i> Enroll New Student</button>
+            <div id="enrollModal2" class="modal-overlay" style="display:none;">
+                <div class="modal-content">
+                    <span class="close-modal" id="closeEnrollModal2">&times;</span>
+                    <iframe id="enrollFrame2" src="" frameborder="0" style="width:100%;height:500px;"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div id="Grade3" style="display:none;">
+            <h1>Enroll Grade 3 Student</h1>
+            <button id="enrollBtn3" class="enroll-btn"><i class="fa fa-user-plus"></i> Enroll New Student</button>
+            <div id="enrollModal3" class="modal-overlay" style="display:none;">
+                <div class="modal-content">
+                    <span class="close-modal" id="closeEnrollModal3">&times;</span>
+                    <iframe id="enrollFrame3" src="" frameborder="0" style="width:100%;height:500px;"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div id="Grade4" style="display:none;">
+            <h1>Enroll Grade 4 Student</h1>
+            <button id="enrollBtn4" class="enroll-btn"><i class="fa fa-user-plus"></i> Enroll New Student</button>
+            <div id="enrollModal4" class="modal-overlay" style="display:none;">
+                <div class="modal-content">
+                    <span class="close-modal" id="closeEnrollModal4">&times;</span>
+                    <iframe id="enrollFrame4" src="" frameborder="0" style="width:100%;height:500px;"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div id="Grade5" style="display:none;">
+            <h1>Enroll Grade 5 Student</h1>
+            <button id="enrollBtn5" class="enroll-btn"><i class="fa fa-user-plus"></i> Enroll New Student</button>
+            <div id="enrollModal5" class="modal-overlay" style="display:none;">
+                <div class="modal-content">
+                    <span class="close-modal" id="closeEnrollModal5">&times;</span>
+                    <iframe id="enrollFrame5" src="" frameborder="0" style="width:100%;height:500px;"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div id="Grade6" style="display:none;">
+            <h1>Enroll Grade 6 Student</h1>
+            <button id="enrollBtn6" class="enroll-btn"><i class="fa fa-user-plus"></i> Enroll New Student</button>
+            <div id="enrollModal6" class="modal-overlay" style="display:none;">
+                <div class="modal-content">
+                    <span class="close-modal" id="closeEnrollModal6">&times;</span>
+                    <iframe id="enrollFrame6" src="" frameborder="0" style="width:100%;height:500px;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/project/MANAGEMENT/account/admin/js/admin.js"></script>
+    <script src="/project/MANAGEMENT/account/admin/js/chart.js"></script>
+</body>
+</html>

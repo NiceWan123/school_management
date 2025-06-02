@@ -1,0 +1,146 @@
+body {
+    background: #f2f3f7;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.enrollment-form {
+    background: #fff;
+    max-width: 840px;
+    margin: 40px auto;
+    padding: 30px 40px 25px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px 0 rgba(31,38,135,0.13);
+    font-size: 15px;
+}
+h1 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 0.2em;
+}
+small {
+    display: block;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.section {
+    margin-bottom: 15px;
+}
+.blue-header {
+    background: #e6f0fb;
+    padding: 6px 8px;
+    margin: 20px 0 6px 0;
+    border-left: 5px solid #1976d2;
+    font-size: 1.1em;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+input[type="text"], input[type="number"], input[type="date"], select {
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 6px 8px;
+    width: 100%;
+    font-size: 1em;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    background: #f9f9fc;
+    transition: border 0.2s;
+}
+input[type="text"].short, input[type="number"].short {
+    width: 60px;
+    display: inline-block;
+}
+input[type="text"].long {
+    width: 300px;
+}
+input[type="checkbox"], input[type="radio"] {
+    width: auto;
+    margin-right: 4px;
+}
+.inline {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.inline label {
+    flex: 1 1 170px;
+    margin-bottom: 0;
+}
+.inline-input {
+    width: 140px;
+    margin-left: 10px;
+}
+.lrn-boxes {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.lrn-input {
+    width: 220px;
+    letter-spacing: 4px;
+    font-size: 1.1em;
+    padding-left: 10px;
+}
+.grid-box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 16px;
+}
+.checkbox-group {
+    margin-top: 8px;
+    display: flex;
+    gap: 12px;
+}
+.certify {
+    font-size: 0.97em;
+    margin: 16px 0 8px 0;
+    color: #333;
+    font-style: italic;
+}
+.submit-btn {
+    margin-top: 22px;
+    background: #1976d2;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    transition: background 0.2s;
+    letter-spacing: 0.04em;
+}
+.submit-btn:hover {
+    background: #1251a7;
+}
+#formResult {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 17px;
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .enrollment-form {
+        padding: 16px 4vw;
+    }
+    .inline label {
+        flex: 1 1 140px;
+    }
+}
+@media (max-width: 600px) {
+    .enrollment-form {
+        padding: 4vw 2vw;
+    }
+    h1 { font-size: 1.1em; }
+    .inline, .grid-box {
+        flex-direction: column;
+        display: block;
+    }
+}

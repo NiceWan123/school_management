@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Student Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            background: transparent; /* Seamless with dashboard iframe */
+        }
+        #studentAccountForm {
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 430px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 3px 20px rgba(60,80,48,0.11);
+            padding: 30px 28px 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            border: 1px solid #e0e0e0;
+        }
+        #studentAccountForm .form-title {
+            margin-bottom: 6px;
+            font-size: 1.5em;
+            letter-spacing: 0.02em;
+            font-weight: 700;
+            color: #1877f2;
+            text-align: center;
+        }
+        #studentAccountForm label {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: #263238;
+            margin-top: 7px;
+        }
+        #studentAccountForm input,
+        #studentAccountForm select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid #cfd8dc;
+            border-radius: 7px;
+            margin-bottom: 2px;
+            background: #f7fafc;
+            transition: border 0.18s, box-shadow 0.18s;
+            box-sizing: border-box;
+            outline: none;
+        }
+        #studentAccountForm input:focus,
+        #studentAccountForm select:focus {
+            border: 1.5px solid #1877f2;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(24,119,242,0.07);
+        }
+        #studentAccountForm select option[disabled] {
+            color: #aaa;
+        }
+        .pretty-btn {
+            margin-top: 10px;
+            padding: 11px 0;
+            background: linear-gradient(90deg, #1877f2 60%, #0056b3 100%);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 1.1em;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            box-shadow: 0 2px 7px rgba(24,119,242,0.06);
+            transition: background 0.18s, transform 0.14s;
+        }
+        .pretty-btn:hover {
+            background: linear-gradient(90deg, #145db2 60%, #003d7a 100%);
+            transform: translateY(-1px) scale(1.02);
+        }
+        #student-result {
+            max-width: 430px;
+            margin: 18px auto 0 auto;
+            color: #1877f2;
+            font-weight: 600;
+            font-size: 1.08em;
+            text-align: center;
+            min-height: 22px;
+        }
+        @media (max-width: 700px) {
+            #studentAccountForm {
+                max-width: 98vw;
+                padding: 18px 2vw 16px 2vw;
+                margin: 18px auto;
+            }
+            body {
+                background: #f5f6fa;
+            }
+        }
+        @media (max-width: 520px) {
+            #studentAccountForm, #student-result {
+                max-width: 97vw;
+                padding: 10px 2vw 10px 2vw;
+            }
+            #student-result {
+                font-size: 1em;
+            }
+            #studentAccountForm .form-title {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form id="studentAccountForm" autocomplete="off">
+        <h2 class="form-title">Create Student Account</h2>
+        <label for="studentName">Full Name</label>
+        <input type="text" id="studentName" name="studentName" required placeholder="Enter full name">
+
+        <label for="studentEmail">Email</label>
+        <input type="email" id="studentEmail" name="studentEmail" required placeholder="Enter email address">
+
+        <label for="lrnNumber">LRN Number</label>
+        <input type="text" id="lrnNumber" name="lrnNumber" required placeholder="Enter 12-digit LRN" pattern="^\d{1,12}$" maxlength="12" inputmode="numeric" title="LRN must be up to 12 digits">
+
+        <label for="studentGrade">Grade Level</label>
+        <select id="studentGrade" name="studentGrade" required>
+            <option value="" disabled selected>Select grade level</option>
+            <option value="1">Grade 1</option>
+            <option value="2">Grade 2</option>
+            <option value="3">Grade 3</option>
+            <option value="4">Grade 4</option>
+            <option value="5">Grade 5</option>
+            <option value="6">Grade 6</option>
+        </select>
+
+        <label for="password">Password</label>
+        <input type="text" id="password" name="password" required minlength="1" placeholder="Password auto-filled" readonly style="background:#f1f1f1;">
+
+        <button type="submit" class="pretty-btn">Create Account</button>
+    </form>
+    <div id="student-result"></div>
+    <script>
+        const lrnInput = document.getElementById('lrnNumber');
+        const passwordInput = document.getElementById('password');
+        const form = document.getElementById('studentAccountForm');
+        const resultDiv = document.getElementById('student-result');
+
+        // Auto-set password to last six digits of LRN
+        lrnInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 12);
+            if(this.value.length >= 6) {
+                passwordInput.value = this.value.slice(-6);
+            } else {
+                passwordInput.value = this.value;
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let accounts = [];
+            try {
+                const stored = localStorage.getItem('admin_accounts');
+                if (stored) accounts = JSON.parse(stored);
+            } catch {}
+
+            const lrnVal = lrnInput.value.trim();
+            if (!/^\d{1,12}$/.test(lrnVal)) {
+                resultDiv.textContent = "LRN Number must be numeric and up to 12 digits.";
+                lrnInput.focus();
+                return;
+            }
+            let password = lrnVal.length >= 6 ? lrnVal.slice(-6) : lrnVal;
+
+            const name = document.getElementById('studentName').value.trim();
+            const email = document.getElementById('studentEmail').value.trim();
+            const grade = document.getElementById('studentGrade').value;
+
+            if (accounts.some(acc => acc.lrn === lrnVal)) {
+                resultDiv.textContent = "An account with this LRN already exists.";
+                return;
+            }
+
+            accounts.push({
+                lrn: lrnVal,
+                name,
+                email,
+                grade,
+                password
+            });
+
+            localStorage.setItem('admin_accounts', JSON.stringify(accounts));
+            form.reset();
+            passwordInput.value = '';
+            resultDiv.textContent = "Account created successfully!";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+.announcement-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  background: #f0f2f5;
+  padding-bottom: 40px;
+  min-height: 400px;
+}
+
+.announcement-item {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px 18px 14px 18px;
+  box-shadow: 0 2px 12px rgba(60,80,48,0.10);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  transition: box-shadow .18s;
+}
+
+.announcement-item:hover {
+  box-shadow: 0 6px 22px rgba(60,80,48,0.17);
+}
+
+.announcement-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.announcement-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #cfd8dc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: #607d8b;
+  margin-right: 12px;
+  flex-shrink: 0;
+  user-select: none;
+  box-shadow: 0 1px 2px rgba(60,80,48,0.10);
+}
+
+.announcement-userinfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.announcement-title {
+  font-weight: 700;
+  font-size: 17px;
+  color: #263238;
+  letter-spacing: 0.01em;
+  margin-bottom: 2px;
+  word-break: break-word;
+}
+
+.announcement-timestamp {
+  font-size: 12px;
+  color: #90a4ae;
+  margin-top: 2px;
+}
+
+.announcement-details {
+  color: #37474f;
+  font-size: 15px;
+  margin-bottom: 10px;
+  white-space: pre-line;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.announcement-images-wrapper {
+  width: 100%;
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.announcement-image {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: 7px;
+  border: 1px solid #e0e0e0;
+  background: #fafafa;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.remove-btn {
+  position: absolute;
+  top: 20px;
+  right: 23px;
+  background: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 13px;
+  padding: 2.5px 14px;
+  cursor: pointer;
+  transition: background 0.18s;
+  z-index: 2;
+  opacity: 0.9;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.09);
+}
+.remove-btn:hover {
+  background: #b71c1c;
+  opacity: 1;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .announcement-item, #postAnnouncement {
+    max-width: 98vw;
+    padding: 10px 4vw 8px 4vw;
+  }
+  .announcement-list {
+    padding-bottom: 20px;
+  }
+}

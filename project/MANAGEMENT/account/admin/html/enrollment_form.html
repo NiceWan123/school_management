@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enrollment Form</title>
+    <link rel="stylesheet" href="/project/MANAGEMENT/account/admin/css/enrollment_form.css">
+</head>
+<body>
+    <form id="enrollmentForm" class="enrollment-form">
+        <h1>ENROLLMENT FORM</h1>
+        
+        <div class="section">
+            <label>School Year:
+                <input type="text" maxlength="4" class="short" name="schoolYearStart" required> -
+                <input type="text" maxlength="4" class="short" name="schoolYearEnd" required>
+            </label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="noLrn"> No LRN</label>
+                <label><input type="checkbox" name="withLrn"> With LRN</label>
+                <label><input type="checkbox" name="returning"> Returning (Balik-Aral)</label>
+            </div>
+        </div>
+
+        <div class="section blue-header">
+            <strong>STUDENT INFORMATION</strong>
+        </div>
+
+        <div class="section">
+            <label>PSA Birth Certificate No.
+                <input type="text" name="psaBirthCert" class="long">
+            </label>
+            <div class="lrn-boxes">
+                <label>Learner Reference No. (LRN):</label>
+                <input type="text" maxlength="12" pattern="\d{12}" name="lrn" class="lrn-input" placeholder="12-digit LRN">
+            </div>
+        </div>
+
+        <div class="section grid-box">
+            <label>LAST NAME <input type="text" name="lastName" required></label>
+            <label>FIRST NAME <input type="text" name="firstName" required></label>
+            <label>MIDDLE NAME <input type="text" name="middleName"></label>
+            <label>EXTENSION NAME <input type="text" name="extensionName" placeholder="e.g. Jr., III"></label>
+        </div>
+
+        <div class="section">
+            <div class="inline">
+                <label>DATE OF BIRTH
+                    <input type="date" name="dob" required>
+                </label>
+                <label>SEX
+                    <select name="sex" required>
+                        <option value="">--</option>
+                        <option>MALE</option>
+                        <option>FEMALE</option>
+                    </select>
+                </label>
+                <label>AGE <input type="number" name="age" min="1" max="99" class="short"></label>
+            </div>
+            <div class="inline">
+                <label>Belonging to any Indigenous Peoples (IP) Community/Indigenous Cultural Community?
+                    <label><input type="radio" name="ip" value="No" checked> No</label>
+                    <label><input type="radio" name="ip" value="Yes"> Yes</label>
+                    <input type="text" name="ipDetails" placeholder="If Yes, please specify" class="inline-input">
+                </label>
+            </div>
+            <label>Mother Tongue <input type="text" name="motherTongue"></label>
+        </div>
+
+        <div class="section">
+            <label>ADDRESS</label>
+            <input type="text" name="address" placeholder="House Number and Street">
+            <input type="text" name="barangay" placeholder="Barangay">
+            <input type="text" name="city" placeholder="City/Municipality/Province/Country">
+            <input type="text" name="zipCode" placeholder="Zip Code" class="short">
+        </div>
+
+        <div class="section blue-header">
+            <strong>PARENT’S/GUARDIAN’S INFORMATION</strong>
+        </div>
+        <div class="section">
+            <div class="inline">
+                <label>Father’s Name <input type="text" name="fatherName"></label>
+                <label>Mother’s Maiden Name <input type="text" name="motherMaidenName"></label>
+            </div>
+            <label>Guardian’s Name <input type="text" name="guardianName"></label>
+            <div class="inline">
+                <label>Telephone No. <input type="text" name="telephone"></label>
+                <label>Cellphone No. <input type="text" name="cellphone"></label>
+            </div>
+        </div>
+
+        <div class="section blue-header">
+            <strong>For Returning Learners (Balik-Aral) and Those Who Shall Transfer/Move In</strong>
+        </div>
+        <div class="section">
+            <div class="inline">
+                <label>Last Grade Level Completed <input type="text" name="lastGrade"></label>
+                <label>Last School Year Completed <input type="text" name="lastSchoolYear"></label>
+            </div>
+            <div class="inline">
+                <label>School Name <input type="text" name="schoolName"></label>
+                <label>School ID <input type="text" name="schoolId"></label>
+            </div>
+            <label>School Address <input type="text" name="schoolAddress"></label>
+        </div>
+
+        <div class="section blue-header">
+        </div>
+
+        <div class="section">
+            <p class="certify">
+                I hereby certify that the above information given are true and correct to the best of my knowledge
+                and I allow the Department of Education to use my child’s details to create and/or update his/her learner
+                profile in the Learner Information System. The information herein shall be treated as confidential in
+                compliance with the Data Privacy Act of 2012.
+            </p>
+            <div class="inline">
+                <label>Signature Over Printed Name of Parent/Guardian <input type="text" name="signature"></label>
+                <label>Date <input type="date" name="signDate"></label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Enrollment</button>
+        <div id="formResult"></div>
+    </form>
+    <script src="/project/MANAGEMENT/account/admin/js/enrollment_form.js"></script>
+</body>
+</html>

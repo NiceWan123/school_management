@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accounts Table</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { background: #f4f8fb; font-family: 'Segoe UI', Arial, sans-serif; }
+        .excel-table-wrapper {
+            max-width: 900px; margin: 0 auto; background: #fff;
+            box-shadow: 0 3px 20px rgba(60,80,48,0.11);
+            border-radius: 14px; padding: 30px 18px 18px 18px;
+        }
+        h2 { text-align: center; color: #1877f2; margin: 0 0 20px 0; }
+        table { width: 100%; border-collapse: collapse; background: #fff; font-size: 15px; }
+        th, td { border: 1px solid #e0e0e0; padding: 9px 7px; text-align: center; }
+        th {
+            background: #f5fafd; color: #145db2; font-weight: 700;
+            position: sticky; top: 0; z-index: 2;
+        }
+        td { color: #37474f; }
+        .no-accounts {
+            text-align: center; color: #999; font-size: 1.1em; margin: 20px 0; font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="excel-table-wrapper">
+        <h2>Accounts Table</h2>
+        <table id="accountsExcelTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>LRN</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Grade Level</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody id="accountsExcelList"></tbody>
+        </table>
+        <div id="noAccountsMsg" class="no-accounts" style="display:none;">No accounts available.</div>
+    </div>
+    <script>
+        function renderTable() {
+            const accountsExcelListTbody = document.getElementById('accountsExcelList');
+            const noAccountsMsg = document.getElementById('noAccountsMsg');
+            let accounts = [];
+            try {
+                const stored = localStorage.getItem('admin_accounts');
+                if (stored) accounts = JSON.parse(stored);
+            } catch (e) {}
+            accounts.sort((a, b) => Number(a.grade) - Number(b.grade) || a.name.localeCompare(b.name));
+            accountsExcelListTbody.innerHTML = '';
+            if (accounts.length === 0) {
+                noAccountsMsg.style.display = '';
+                return;
+            }
+            noAccountsMsg.style.display = 'none';
+            accounts.forEach((acc, idx) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td>${acc.lrn}</td>
+                    <td>${acc.name}</td>
+                    <td>${acc.email}</td>
+                    <td>Grade ${acc.grade}</td>
+                    <td>${acc.password}</td>
+                `;
+                accountsExcelListTbody.appendChild(row);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', renderTable);
+        window.addEventListener('focus', renderTable);
+    </script>
+</body>
+</html>

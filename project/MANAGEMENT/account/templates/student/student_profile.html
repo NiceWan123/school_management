@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Profile - Cyberpunk</title>
+    <!-- Orbitron and Montserrat fonts for cyber look -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cyberpunk-profile.css">
+    <style>
+      :root {
+        --cyber-bg-dark: #070124;
+        --cyber-bg-mid: #1b058a;
+        --cyber-blue: #2c2ebc;
+        --cyber-blue-accent: #2d1fff;
+        --cyber-white: #fff;
+        --cyber-cyan: #00fff7;
+        --cyber-pink: #ff3cac;
+        --cyber-pink-glow: #ff3cac88;
+        --cyber-cyan-glow: #00fff988;
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: 'Orbitron', 'Montserrat', Arial, sans-serif;
+        background: linear-gradient(120deg, var(--cyber-bg-dark) 60%, var(--cyber-bg-mid) 100%);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .dashboard-header {
+        width: 100vw;
+        height: 64px;
+        background: linear-gradient(90deg, #070124 80%, #00f0ff44 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        box-sizing: border-box;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 200;
+        box-shadow: 0 2px 12px #00f0ff22;
+        transition: transform 0.4s cubic-bezier(.7,0,.3,1), opacity 0.25s;
+      }
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .header-logo img {
+        width: 55px;
+        height: 55px;
+        border-radius: 14px;
+        object-fit: cover;
+        margin-top: -8px;
+      }
+      .school-name {
+        font-family: 'Orbitron', 'Montserrat', Arial, sans-serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #00f0ff;
+        letter-spacing: 2px;
+        text-shadow: 0 1px 12px #00f0ff66;
+      }
+      .dashboard-header.hide {
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .hamburger-btn {
+        margin-left: 32px;
+        width: 44px;
+        height: 44px;
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 7px;
+        cursor: pointer;
+        padding: 0;
+        transition: filter 0.2s;
+      }
+      .hamburger-btn span {
+        display: block;
+        width: 32px;
+        height: 4px;
+        background: #00f0ff;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+      .hamburger-btn.active span:nth-child(1) {
+        transform: translateY(11px) rotate(45deg);
+      }
+      .hamburger-btn.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger-btn.active span:nth-child(3) {
+        transform: translateY(-11px) rotate(-45deg);
+      }
+
+      .half-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 220px;
+        height: 100vh;
+        background: linear-gradient(135deg, #070124 85%, #00f0ff44 100%);
+        box-shadow: 2px 0 18px #00f0ff22;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 150;
+        border-top-right-radius: 36px;
+        border-bottom-right-radius: 36px;
+        transition: transform 0.32s cubic-bezier(.7,0,.3,1);
+        transform: translateX(-110%);
+      }
+      .half-nav.open {
+        transform: translateX(0);
+      }
+      .half-nav-menu {
+        margin-top: 64px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 4px;
+      }
+      .nav-item {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.18rem;
+        padding: 16px 20px;
+        margin: 2px 12px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+        font-weight: 500;
+        letter-spacing: 1px;
+        position: relative;
+      }
+      .nav-item span {
+        font-size: 1.3em;
+      }
+      .nav-item.active,
+      .nav-item:hover {
+        background: #00f0ff33;
+        color: #00f0ff;
+        box-shadow: 0 0 8px #00f0ff55;
+      }
+      .half-nav .announcement-content,
+      .half-nav .announcement-content p,
+      .half-nav .announcement-content span {
+        font-size: 0.85rem;
+        line-height: 1.3;
+        padding: 8px 10px;
+        margin: 0;
+        white-space: normal;
+        word-break: break-word;
+        overflow: visible;
+        text-overflow: unset;
+        color: #ffffff;
+        max-width: 100%;
+        display: block;
+        background: none;
+        box-sizing: border-box;
+      }
+
+      /* Responsive: Hamburger always visible, Sidebar hidden by default on mobile */
+      @media (max-width: 900px) {
+        .dashboard-header {
+          padding: 0 14px;
+        }
+        .half-nav {
+          width: 75vw;
+          min-width: 160px;
+          max-width: 320px;
+        }
+      }
+      .cyber-container {
+        max-width: 700px;
+        margin: 72px auto 48px auto;
+        /* CENTER container horizontally */
+        background: rgba(14,26,58, 0.97);
+        border: 2.5px solid #2C02DF;
+        border-radius: 20px;
+        box-shadow: 0 0 32px 4px #2C02DF99, 0 0 0 8px #070124cc inset;
+        padding: 2.5em 2em 2em 2em;
+        position: relative;
+        overflow: hidden;
+        left: 0;
+        right: 0;
+      }
+      @media (max-width: 900px) {
+        .cyber-container {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+      @media (max-width: 750px) {
+        .cyber-container {
+          max-width: 98vw;
+          padding: 1.2em 0.6em 1.6em 0.6em;
+          margin: 80px auto 0 auto;
+        }
+        .half-nav {
+          display: none;
+        }
+        .dashboard-header {
+          position: static;
+          margin-bottom: 24px;
+        }
+      }
+
+
+      /* Centered 2x2 photo and data below */
+      .profile-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 2em;
+      }
+      .cyber-photo-upload {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 0.8em;
+        gap: 0.5em;
+      }
+      .cyber-photo-frame {
+        width: 192px;
+        height: 192px;
+        border: 4px solid #00fff9;
+        border-radius: 16px;
+        box-shadow: 0 0 20px #2C02DF, 0 0 48px #00fff999;
+        background: #1b058a;
+        overflow: hidden;
+        margin-bottom: 0.7em;
+        transition: border-color 0.15s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .cyber-photo-frame img {
+        width: 192px;
+        height: 192px;
+        object-fit: cover;
+        filter: contrast(1.15) drop-shadow(0 0 8px #2C02DF);
+        border-radius: 14px;
+        background: #202040;
+        display: block;
+      }
+      .profile-data-below {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .cyber-section-label {
+        margin-bottom: 1em;
+        margin-top: 0.5em;
+        text-align: center;
+      }
+      /* For small screens */
+      @media (max-width: 750px) {
+        .profile-data-below {
+          max-width: 100%;
+        }
+      }
+
+      /* --- BUTTONS CYBERPUNK DESIGN --- */
+      .cyber-upload-btn,
+      .cyber-save-btn,
+      .cyber-edit-btn {
+        font-family: 'Orbitron', 'Montserrat', Arial, sans-serif;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: 
+          background 0.18s, 
+          color 0.18s, 
+          box-shadow 0.18s, 
+          transform 0.15s;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cyber-upload-btn {
+        background: linear-gradient(90deg, var(--cyber-blue-accent) 70%, var(--cyber-cyan) 100%);
+        color: #fff;
+        padding: 0.44em 1.5em;
+        font-size: 1.1em;
+        border-radius: 11px;
+        box-shadow: 0 0 12px var(--cyber-cyan-glow);
+        margin-bottom: 0.4em;
+      }
+      .cyber-upload-btn:hover, .cyber-upload-btn:focus {
+        background: linear-gradient(90deg, var(--cyber-cyan) 60%, var(--cyber-blue-accent) 100%);
+        color: var(--cyber-blue-accent);
+        box-shadow: 0 0 20px var(--cyber-cyan-glow), 0 0 6px var(--cyber-blue-accent);
+        transform: scale(1.04);
+      }
+
+      .cyber-save-btn {
+        background: linear-gradient(90deg, #151b4a 70%, var(--cyber-cyan) 100%);
+        color: var(--cyber-cyan);
+        border: 2px solid var(--cyber-cyan);
+        border-radius: 8px;
+        font-size: 1em;
+        padding: 0.32em 1.2em;
+        margin-left: 0.5em;
+        box-shadow: 0 0 10px var(--cyber-cyan-glow);
+      }
+      .cyber-save-btn:hover, .cyber-save-btn:focus {
+        background: var(--cyber-cyan);
+        color: #151b4a;
+        border-color: #151b4a;
+        box-shadow: 0 0 18px var(--cyber-cyan-glow);
+        transform: scale(1.06);
+      }
+
+      .cyber-edit-btn {
+        margin: 18px auto 0 auto;
+        display: block;
+        background: linear-gradient(90deg, var(--cyber-pink) 10%, var(--cyber-blue-accent) 100%);
+        color: #fff;
+        border-radius: 13px;
+        font-size: 1.18em;
+        padding: 0.5em 2em;
+        letter-spacing: 2px;
+        box-shadow: 0 0 12px var(--cyber-pink-glow), 0 0 30px #2C02DF44;
+      }
+      .cyber-edit-btn:hover, .cyber-edit-btn:focus {
+        background: linear-gradient(90deg, var(--cyber-blue-accent) 30%, var(--cyber-pink) 100%);
+        color: var(--cyber-cyan);
+        box-shadow: 0 0 20px var(--cyber-cyan-glow), 0 0 34px var(--cyber-pink-glow);
+        transform: scale(1.06);
+      }
+    </style>
+</head>
+<body>
+  <!-- Header with Logo, School Name, and Hamburger -->
+  <header class="dashboard-header" id="dashboardHeader">
+    <div class="header-logo">
+      <img src="/project/MANAGEMENT/account/templates/student/images/school_logo.png" alt="Logo" />
+      <span class="school-name">Eastern Pangasinan Christian Learning Center, Inc.</span>
+    </div>
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Sidebar Navigation -->
+  <div class="half-nav" id="sideNav">
+    <nav class="half-nav-menu">
+      <a href="/project/MANAGEMENT/account/templates/student/student_dashboard.html" class="nav-item active"><span>🏠</span> Dashboard</a>
+      <a href="/project/MANAGEMENT/account/templates/student/student_profile.html" class="nav-item"><span>👤</span> Profile</a>
+      <a href="/project/MANAGEMENT/account/templates/student/starplot.html" class="nav-item"><span>📊</span> Stats</a>
+      <a href="#calendar" class="nav-item"><span>📅</span> Calendar</a> 
+      <a href="#announcements" class="nav-item"><span>📢</span><div class="announcement-content"> Announcements </div></a>
+      <a href="/project/MANAGEMENT/account/templates/student/student_login.html" class="nav-item"><span>🚪</span> Logout</a>
+    </nav>
+  </div>
+  <div class="cyber-container">
+      <div class="cyberpunk-header">Student Profile</div>
+      <hr class="cyberpunk-divider" />
+      <div class="profile-center">
+        <div class="cyber-photo-upload">
+          <div class="cyber-photo-frame">
+              <img id="studentPhoto" src="default_2x2.png" alt="2x2 Student Photo">
+          </div>
+          <label class="cyber-upload-btn" for="photoInput">Upload 2x2 Photo</label>
+          <input type="file" id="photoInput" accept="image/*">
+          <button id="savePhotoBtn" type="button" class="cyber-save-btn">Save Photo</button>
+        </div>
+        <div class="profile-data-below">
+          <div class="cyber-section-label">Basic Information</div>
+          <div id="profileInfo">
+              <!-- Profile details will be filled by JS -->
+          </div>
+        </div>
+      </div>
+      <button class="cyber-edit-btn" onclick="window.location.href='enrollment_form.html'">Edit Profile</button>
+  </div>
+  <script>
+    // --- Responsive Cyberpunk Navbar Logic ---
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const sideNav = document.getElementById('sideNav');
+    const dashboardHeader = document.getElementById('dashboardHeader');
+
+    function openMenu() {
+      sideNav.classList.add('open');
+      hamburgerBtn.classList.add('active');
+      dashboardHeader.classList.add('hide');
+    }
+    function closeMenu() {
+      sideNav.classList.remove('open');
+      hamburgerBtn.classList.remove('active');
+      dashboardHeader.classList.remove('hide');
+    }
+    ['click', 'mouseenter'].forEach(evt =>
+      hamburgerBtn.addEventListener(evt, () => {
+        if (!sideNav.classList.contains('open')) openMenu();
+      })
+    );
+    sideNav.addEventListener('mouseleave', closeMenu);
+    document.querySelectorAll('.half-nav-menu .nav-item').forEach(link => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (
+        sideNav.classList.contains('open') &&
+        !sideNav.contains(e.target) &&
+        !hamburgerBtn.contains(e.target)
+      ) {
+        closeMenu();
+      }
+    });
+
+    // --- Student Profile Main Logic ---
+    function cyberLabel(label) {
+        return `<div class="cyber-label">${label}</div>`;
+    }
+    function cyberValue(value) {
+        return `<div class="cyber-value">${value || ''}</div>`;
+    }
+
+    function populateProfile() {
+        let profile = localStorage.getItem('studentProfile');
+        if (!profile) {
+            document.getElementById('profileInfo').innerHTML = '<em>No profile data. Please complete the enrollment form.</em>';
+            return;
+        }
+        profile = JSON.parse(profile);
+        let html = '';
+        html += '<div class="cyber-profile-row">' + cyberLabel('Name:') +
+            cyberValue(`${profile.lastName || ''}, ${profile.firstName || ''} ${profile.middleName || ''} ${profile.extensionName || ''}`) + '</div>';
+        html += '<div class="cyber-profile-row">' + cyberLabel('LRN:') + cyberValue(profile.lrn) + '</div>';
+        html += '<div class="cyber-profile-row">' + cyberLabel('Date of Birth:') +
+            cyberValue(`${profile.dob || ''}  <span style="font-size:0.92em; color:#00fff9; margin-left:1em;">Age: ${profile.age || ''}</span>`) + '</div>';
+        html += '<div class="cyber-profile-row">' + cyberLabel('Sex:') + cyberValue(profile.sex) + '</div>';
+        html += '<div class="cyber-profile-row">' + cyberLabel('Address:') +
+            cyberValue(`${profile.address || ''}, ${profile.barangay || ''}, ${profile.city || ''} ${profile.zipCode || ''}`) + '</div>';
+        html += '<div class="cyber-profile-row">' + cyberLabel('School Year:') +
+            cyberValue(`${profile.schoolYearStart || ''} - ${profile.schoolYearEnd || ''}`) + '</div>';
+        html += '<div class="cyber-profile-row">' + cyberLabel('Parent/Guardian:') +
+            cyberValue(`<strong>Father:</strong> ${profile.fatherName || ''} <br>
+                <strong>Mother:</strong> ${profile.motherMaidenName || ''} <br>
+                <strong>Guardian:</strong> ${profile.guardianName || ''}`) + '</div>';
+        document.getElementById('profileInfo').innerHTML = html;
+    }
+
+    // Photo upload, preview, and save
+    const photoInput = document.getElementById('photoInput');
+    const studentPhoto = document.getElementById('studentPhoto');
+    const savePhotoBtn = document.getElementById('savePhotoBtn');
+
+    function loadPhoto() {
+        const photoData = localStorage.getItem('studentPhoto');
+        if (photoData) studentPhoto.src = photoData;
+    }
+    photoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                studentPhoto.src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    savePhotoBtn.addEventListener('click', function() {
+        if (studentPhoto.src && studentPhoto.src.startsWith('data:image')) {
+            localStorage.setItem('studentPhoto', studentPhoto.src);
+            alert('Photo saved!');
+        } else {
+            alert('Please select a photo first.');
+        }
+    });
+
+    window.onload = function() {
+        populateProfile();
+        loadPhoto();
+    }
+  </script>
+</body>
+</html>

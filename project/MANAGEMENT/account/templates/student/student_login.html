@@ -1,7 +1,38 @@
-<h2>Student Login</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
-<p>Are you a teacher? <a href="{% url 'account:teacher_login' %}">Login here</a></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyberpunk Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="student_login.css">
+</head>
+<body>
+  <div class="cyber-bg"></div>
+  <form class="cyberpunk-login-box">
+    <!-- School Logo and Name Row Start -->
+    <div class="school-header" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;">
+      <img src="/project/MANAGEMENT/account/templates/student/images/school_logo.png" alt="School Logo" class="school-logo" style="width: 80px; height: 80px; object-fit: contain; filter: drop-shadow(0 0 15px #00fff7aa);">
+      <div class="school-name" style="color: #fff; font-family: 'Orbitron', Arial, sans-serif; font-size: 0.9rem; font-weight: 500; text-shadow: 0 0 8px #00fff7, 0 0 12px #ff00cc88; letter-spacing: 1px; text-align: left;">
+       Eastern Pangasinan Christian Learning Center, Inc.
+      </div>
+    </div>
+    <!-- School Logo and Name Row End -->
+    <h1>LOGIN</h1>
+    <div class="cyberpunk-input-wrap">
+      <input type="text" placeholder="LRN" name="lrn" required>
+      <span></span>
+    </div>
+    <div class="cyberpunk-input-wrap">
+      <input type="password" placeholder="Password" required>
+      <span></span>
+    </div>
+    <div class="cyberpunk-input-wrap">
+      <button type="submit" class="cyberpunk-btn">ENTER</button>
+    </div>
+    <div class="teacher-link">
+      Are you a teacher? <a href="teacher-login.html">Log in here</a>
+    </div>
+  </form>
+</body>
+<script src="/project/MANAGEMENT/account/templates/student/student_login.js"></script>
+</html>

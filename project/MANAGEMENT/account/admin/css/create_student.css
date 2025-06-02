@@ -1,0 +1,133 @@
+ #accountsSummary {
+            max-width: 410px;
+            margin: 30px auto 18px auto;
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 18px 24px 14px 24px;
+            color: #145db2;
+            font-weight: 600;
+            font-size: 1.08em;
+            text-align: center;
+            box-shadow: 0 1px 6px rgba(24,119,242,0.06);
+            border: 1px solid #bbdefb;
+        }
+        #accountsTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 11px;
+            background: #fff;
+        }
+        #accountsTable th, #accountsTable td {
+            border: 1px solid #e0e0e0;
+            padding: 7px;
+            font-size: 14px;
+            text-align: center;
+        }
+        #accountsTable th {
+            background: #f5fafd;
+            color: #145db2;
+            font-weight: 700;
+        }
+        #accountsTable td {
+            color: #37474f;
+        }
+        #studentAccountForm {
+            max-width: 410px;
+            margin: 24px auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 3px 20px rgba(60,80,48,0.11);
+            padding: 30px 28px 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            border: 1px solid #e0e0e0;
+        }
+
+        #studentAccountForm .form-title {
+            margin-bottom: 6px;
+            font-size: 1.5em;
+            letter-spacing: 0.02em;
+            font-weight: 700;
+            color: #1877f2;
+            text-align: center;
+        }
+
+        #studentAccountForm label {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: #263238;
+            margin-top: 7px;
+        }
+
+        #studentAccountForm input,
+        #studentAccountForm select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid #cfd8dc;
+            border-radius: 7px;
+            margin-bottom: 2px;
+            background: #f7fafc;
+            transition: border 0.18s, box-shadow 0.18s;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        #studentAccountForm input:focus,
+        #studentAccountForm select:focus {
+            border: 1.5px solid #1877f2;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(24,119,242,0.07);
+        }
+
+        #studentAccountForm select option[disabled] {
+            color: #aaa;
+        }
+
+        .pretty-btn {
+            margin-top: 10px;
+            padding: 11px 0;
+            background: linear-gradient(90deg, #1877f2 60%, #0056b3 100%);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 1.1em;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            box-shadow: 0 2px 7px rgba(24,119,242,0.06);
+            transition: background 0.18s, transform 0.14s;
+        }
+
+        .pretty-btn:hover {
+            background: linear-gradient(90deg, #145db2 60%, #003d7a 100%);
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        #student-result {
+            max-width: 410px;
+            margin: 18px auto 0 auto;
+            color: #1877f2;
+            font-weight: 600;
+            font-size: 1.08em;
+            text-align: center;
+            min-height: 22px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 520px) {
+            #studentAccountForm, #student-result, #accountsSummary {
+                max-width: 97vw;
+                padding: 18px 5vw 16px 5vw;
+            }
+            #student-result {
+                font-size: 1em;
+            }
+            #studentAccountForm .form-title {
+                font-size: 1.2em;
+            }
+        }
+        .hidden { display: none; }

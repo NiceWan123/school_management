@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Teacher Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        #teachersSummary {
+            max-width: 700px;
+            margin: 30px auto 18px auto;
+            background: #fce4ec;
+            border-radius: 10px;
+            padding: 18px 24px 14px 24px;
+            color: #ad1457;
+            font-weight: 600;
+            font-size: 1.08em;
+            text-align: center;
+            box-shadow: 0 1px 6px rgba(200,40,100,0.06);
+            border: 1px solid #f8bbd0;
+        }
+        #teacherAccountForm {
+            max-width: 410px;
+            margin: 24px auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 3px 20px rgba(60,80,48,0.11);
+            padding: 30px 28px 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            border: 1px solid #e0e0e0;
+        }
+        #teacherAccountForm .form-title {
+            margin-bottom: 6px;
+            font-size: 1.5em;
+            letter-spacing: 0.02em;
+            font-weight: 700;
+            color: #ad1457;
+            text-align: center;
+        }
+        #teacherAccountForm label {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: #263238;
+            margin-top: 7px;
+        }
+        #teacherAccountForm input,
+        #teacherAccountForm select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid #cfd8dc;
+            border-radius: 7px;
+            margin-bottom: 2px;
+            background: #f7fafc;
+            transition: border 0.18s, box-shadow 0.18s;
+            box-sizing: border-box;
+            outline: none;
+        }
+        #teacherAccountForm input:focus,
+        #teacherAccountForm select:focus {
+            border: 1.5px solid #ad1457;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(200,40,100,0.07);
+        }
+        .pretty-btn {
+            margin-top: 10px;
+            padding: 11px 0;
+            background: linear-gradient(90deg, #ec407a 60%, #ad1457 100%);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 1.1em;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            box-shadow: 0 2px 7px rgba(200,40,100,0.06);
+            transition: background 0.18s, transform 0.14s;
+        }
+        .pretty-btn:hover {
+            background: linear-gradient(90deg, #ad1457 60%, #880e4f 100%);
+            transform: translateY(-1px) scale(1.02);
+        }
+        #teacher-result {
+            max-width: 410px;
+            margin: 18px auto 0 auto;
+            color: #ad1457;
+            font-weight: 600;
+            font-size: 1.08em;
+            text-align: center;
+            min-height: 22px;
+        }
+        @media (max-width: 700px) {
+            #teachersSummary {
+                max-width: 99vw;
+                padding: 12px 1vw 8px 1vw;
+            }
+        }
+        @media (max-width: 520px) {
+            #teacherAccountForm, #teacher-result, #teachersSummary {
+                max-width: 97vw;
+                padding: 18px 5vw 16px 5vw;
+            }
+            #teacher-result {
+                font-size: 1em;
+            }
+            #teacherAccountForm .form-title {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <form id="teacherAccountForm" autocomplete="off">
+        <h2 class="form-title">Create Teacher Account</h2>
+        <label for="teacherName">Full Name</label>
+        <input type="text" id="teacherName" name="teacherName" required placeholder="Enter full name">
+
+        <label for="teacherEmail">Email</label>
+        <input type="email" id="teacherEmail" name="teacherEmail" required placeholder="Enter email address">
+
+        <label for="teacherID">Employee ID</label>
+        <input type="text" id="teacherID" name="teacherID" required placeholder="Enter Employee ID" maxlength="10" pattern="^[A-Za-z0-9]+$" title="Alphanumeric only">
+
+        <label for="teacherPassword">Password</label>
+        <input type="text" id="teacherPassword" name="teacherPassword" required minlength="1" placeholder="Password auto-filled" readonly style="background:#f1f1f1;">
+
+        <button type="submit" class="pretty-btn">Create Account</button>
+    </form>
+    <div id="teacher-result"></div>
+    <script>
+let teacherAccounts = [];
+
+const teacherIDInput = document.getElementById('teacherID');
+const teacherPasswordInput = document.getElementById('teacherPassword');
+const teacherForm = document.getElementById('teacherAccountForm');
+const teacherResultDiv = document.getElementById('teacher-result');
+const numTeachersDiv = document.getElementById('numTeachers');
+
+// Auto-set password to last 4 chars of Employee ID (changeable as needed)
+teacherIDInput.addEventListener('input', function() {
+    this.value = this.value.replace(/[^A-Za-z0-9]/g, '').slice(0, 10);
+    if(this.value.length >= 4) {
+        teacherPasswordInput.value = this.value.slice(-4);
+    } else {
+        teacherPasswordInput.value = this.value;
+    }
+});
+
+// Form submission
+teacherForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const idVal = teacherIDInput.value.trim();
+    if (!/^[A-Za-z0-9]{1,10}$/.test(idVal)) {
+        teacherResultDiv.textContent = "Employee ID must be alphanumeric and up to 10 characters.";
+        teacherIDInput.focus();
+        return;
+    }
+    let password = idVal.length >= 4 ? idVal.slice(-4) : idVal;
+
+    const name = document.getElementById('teacherName').value.trim();
+    const email = document.getElementById('teacherEmail').value.trim();
+
+    if (teacherAccounts.some(acc => acc.id === idVal)) {
+        teacherResultDiv.textContent = "An account with this Employee ID already exists.";
+        return;
+    }
+
+    const acct = {
+        id: idVal,
+        name,
+        email,
+        password
+    };
+    teacherAccounts.push(acct);
+
+    updateTeachersDisplay();
+    teacherForm.reset();
+    teacherPasswordInput.value = '';
+    teacherResultDiv.textContent = "Teacher account created successfully!";
+});
+
+function updateTeachersDisplay() {
+    numTeachersDiv.textContent = "Teachers Created: " + teacherAccounts.length;
+    localStorage.setItem('teacher_accounts', JSON.stringify(teacherAccounts));
+}
+
+// Initialize from localStorage if any
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        const stored = localStorage.getItem('teacher_accounts');
+        if (stored) {
+            teacherAccounts = JSON.parse(stored);
+            updateTeachersDisplay();
+        }
+    } catch (e) { }
+});
+    </script>
+</body>
+</html>

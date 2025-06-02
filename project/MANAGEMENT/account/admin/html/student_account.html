@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Accounts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 38px auto 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 20px 22px 20px;
+            box-shadow: 0 2px 12px rgba(24,119,242,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        h2 {
+            text-align: center;
+            color: #1976d2;
+            margin-bottom: 12px;
+        }
+        .grades-filter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .grade-btn {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 18px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .12s, color .12s, box-shadow .12s;
+        }
+        .grade-btn.active, .grade-btn:hover {
+            background: #1976d2;
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(24,119,242,0.11);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 16px;
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1em;
+            border-radius: 4px;
+            background: #e3f2fd;
+            padding: 8px 18px;
+            transition: background .13s;
+        }
+        .back-link:hover {
+            background: #bbdefb;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(24,119,242,0.04);
+        }
+        th, td {
+            padding: 14px 11px;
+            border-bottom: 1px solid #f1f2f6;
+            text-align: left;
+            font-size: 1em;
+        }
+        th {
+            background: #f1f2f6;
+            color: #1877f2;
+            font-weight: 700;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .no-accounts {
+            color: #bdbdbd;
+            text-align: center;
+            font-size: 1.08em;
+            padding: 40px 0;
+        }
+        @media (max-width: 700px) {
+            .container { max-width: 99vw; padding: 10px 2vw 8px 2vw; }
+            th, td { padding: 10px 3px; font-size: 0.98em; }
+            .grades-filter { gap: 5px; }
+        }
+        @media (max-width: 520px) {
+            .container { padding: 3vw 1vw; }
+            th, td { font-size: 0.95em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="admin.html" class="back-link">&larr; Back to Dashboard</a>
+        <h2>Student Accounts</h2>
+        <div class="grades-filter">
+            <button class="grade-btn active" data-grade="all">All</button>
+            <button class="grade-btn" data-grade="1">Grade 1</button>
+            <button class="grade-btn" data-grade="2">Grade 2</button>
+            <button class="grade-btn" data-grade="3">Grade 3</button>
+            <button class="grade-btn" data-grade="4">Grade 4</button>
+            <button class="grade-btn" data-grade="5">Grade 5</button>
+            <button class="grade-btn" data-grade="6">Grade 6</button>
+        </div>
+        <div id="accounts-table-container"></div>
+    </div>
+    <script>
+        function getAccounts() {
+            try {
+                return JSON.parse(localStorage.getItem('admin_accounts')) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function renderTable(accounts) {
+            if (!accounts.length) {
+                return `<div class="no-accounts">No student accounts found for this grade.</div>`;
+            }
+            let html = `<table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>LRN</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            accounts.forEach(acc => {
+                html += `<tr>
+                    <td>${acc.name}</td>
+                    <td>${acc.lrn}</td>
+                    <td><a href="mailto:${acc.email}" style="color:#1976d2;text-decoration:underline;">${acc.email}</a></td>
+                    <td>${acc.password}</td>
+                    <td>${acc.grade}</td>
+                </tr>`;
+            });
+            html += `</tbody></table>`;
+            return html;
+        }
+
+        function filterAccounts(grade) {
+            const allAccounts = getAccounts();
+            if (grade === "all") return allAccounts;
+            return allAccounts.filter(acc => String(acc.grade) === String(grade));
+        }
+
+        function updateTable(grade = "all") {
+            // Highlight active button
+            document.querySelectorAll('.grade-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-grade') === grade);
+            });
+            // Render table
+            const accounts = filterAccounts(grade);
+            document.getElementById('accounts-table-container').innerHTML = renderTable(accounts);
+        }
+
+        // Button click handlers
+        document.querySelectorAll('.grade-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                updateTable(this.getAttribute('data-grade'));
+            });
+        });
+
+        // Initial render (all grades)
+        updateTable("all");
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'admin_accounts') {
+                updateTable();
+            }
+        });
+    </script>
+</body>
+</html>

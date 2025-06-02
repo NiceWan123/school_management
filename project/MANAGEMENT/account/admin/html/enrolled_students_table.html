@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enrolled Students Table</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { background: #f4f8fb; font-family: 'Segoe UI', Arial, sans-serif; }
+        .excel-table-wrapper {
+            max-width: 1100px; margin: 0 auto; background: #fff;
+            box-shadow: 0 3px 20px rgba(60,80,48,0.11);
+            border-radius: 14px; padding: 30px 18px 18px 18px;
+        }
+        h2 { text-align: center; color: #1877f2; margin: 0 0 20px 0; }
+        .grade-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .grade-buttons button {
+            padding: 7px 18px;
+            border-radius: 8px;
+            border: none;
+            background: #e3eefd;
+            color: #145db2;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background .2s;
+        }
+        .grade-buttons button.active {
+            background: #145db2;
+            color: #fff;
+        }
+        .back-btn-wrapper {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+        .back-btn {
+            display: inline-block;
+            background: #145db2;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 8px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 15px;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background: #1877f2;
+        }
+        table { width: 100%; border-collapse: collapse; background: #fff; font-size: 15px; }
+        th, td { border: 1px solid #e0e0e0; padding: 9px 7px; text-align: center; }
+        th {
+            background: #f5fafd; color: #145db2; font-weight: 700;
+            position: sticky; top: 0; z-index: 2;
+        }
+        td { color: #37474f; }
+        .no-accounts {
+            text-align: center; color: #999; font-size: 1.1em; margin: 20px 0; font-style: italic;
+        }
+        .excel-table-scroll {
+            max-height: 70vh;
+            overflow-y: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="excel-table-wrapper">
+        <div class="back-btn-wrapper">
+            <button class="back-btn" onclick="goBackToDashboard()">← Go Back to Dashboard</button>
+        </div>
+        <h2>Enrolled Students Table</h2>
+        <div class="grade-buttons" id="gradeButtons">
+            <button type="button" class="active" data-grade="all">All Grades</button>
+            <button type="button" data-grade="1">Grade 1</button>
+            <button type="button" data-grade="2">Grade 2</button>
+            <button type="button" data-grade="3">Grade 3</button>
+            <button type="button" data-grade="4">Grade 4</button>
+            <button type="button" data-grade="5">Grade 5</button>
+            <button type="button" data-grade="6">Grade 6</button>
+        </div>
+        <div class="excel-table-scroll">
+            <table id="enrolledExcelTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>LRN</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Extension Name</th>
+                        <th>Date of Birth</th>
+                        <th>Sex</th>
+                        <th>Age</th>
+                        <th>Mother Tongue</th>
+                        <th>Address</th>
+                        <th>Grade Level</th>
+                        <th>School Year</th>
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </thead>
+                <tbody id="enrolledExcelList"></tbody>
+            </table>
+        </div>
+        <div id="noEnrolledMsg" class="no-accounts" style="display:none;">No enrolled students yet.</div>
+    </div>
+    <script>
+        function goBackToDashboard() {
+            // Change the URL to your actual dashboard page if needed
+            window.location.href = "admin.html";
+        }
+
+        function getDisplayValue(obj, key) {
+            return (obj[key] !== undefined && obj[key] !== null) ? obj[key] : '';
+        }
+
+        // Helper to get grade as number (for sorting/filtering)
+        function getGradeLevel(stud) {
+            // Accept both 'gradeLevel' as "Grade X" or just "X"
+            let grade = getDisplayValue(stud, 'gradeLevel');
+            if (!grade) return null;
+            if (typeof grade === 'string') {
+                let match = grade.match(/\d+/);
+                return match ? parseInt(match[0]) : null;
+            }
+            if (typeof grade === 'number') return grade;
+            return null;
+        }
+
+        function renderEnrolledTable(selectedGrade = "all") {
+            const tbody = document.getElementById('enrolledExcelList');
+            const noMsg = document.getElementById('noEnrolledMsg');
+            let enrolled = [];
+            try {
+                const stored = localStorage.getItem('enrolledStudents');
+                if (stored) enrolled = JSON.parse(stored);
+            } catch (e) {}
+            // Filter by grade if needed
+            let filtered = enrolled.filter(stud => {
+                if(selectedGrade === "all") return true;
+                let grade = getGradeLevel(stud);
+                return grade === Number(selectedGrade);
+            });
+            // Sort by grade, then last name
+            filtered.sort((a, b) => {
+                let ga = getGradeLevel(a) || 0, gb = getGradeLevel(b) || 0;
+                if (ga !== gb) return ga - gb;
+                let la = getDisplayValue(a, "lastName").toLowerCase();
+                let lb = getDisplayValue(b, "lastName").toLowerCase();
+                return la.localeCompare(lb);
+            });
+            tbody.innerHTML = '';
+            if (!filtered.length) {
+                noMsg.style.display = '';
+                return;
+            }
+            noMsg.style.display = 'none';
+            filtered.forEach((stud, idx) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td>${getDisplayValue(stud, 'lrn')}</td>
+                    <td>${getDisplayValue(stud, 'lastName')}</td>
+                    <td>${getDisplayValue(stud, 'firstName')}</td>
+                    <td>${getDisplayValue(stud, 'middleName')}</td>
+                    <td>${getDisplayValue(stud, 'extensionName')}</td>
+                    <td>${getDisplayValue(stud, 'dob')}</td>
+                    <td>${getDisplayValue(stud, 'sex')}</td>
+                    <td>${getDisplayValue(stud, 'age')}</td>
+                    <td>${getDisplayValue(stud, 'motherTongue')}</td>
+                    <td>${getDisplayValue(stud, 'address')}</td>
+                    <td>${getDisplayValue(stud, 'gradeLevel')}</td>
+                    <td>${getDisplayValue(stud, 'schoolYearStart') && getDisplayValue(stud, 'schoolYearEnd') ? 
+                        `${stud.schoolYearStart} - ${stud.schoolYearEnd}` : ''}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Grade filter buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            renderEnrolledTable("all");
+            document.getElementById('gradeButtons').addEventListener('click', function(e) {
+                if (e.target.tagName.toLowerCase() === 'button') {
+                    // Button UI
+                    [...this.children].forEach(btn=>btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    renderEnrolledTable(e.target.getAttribute('data-grade'));
+                }
+            });
+        });
+        // Optional: reload table on window focus
+        window.addEventListener('focus', function(){
+            const btn = document.querySelector('.grade-buttons .active');
+            if(btn) renderEnrolledTable(btn.getAttribute('data-grade'));
+        });
+    </script>
+</body>
+</html>
